@@ -1,0 +1,119 @@
+Revinetd version 1.0.1
+
+Revinetd is the GNU Version of the TCP gender changer.
+
+Portions Copyright (C) 2003-2008 Steven M. Gill
+Portions Copyright (C) 2003-2004 Alexandre Carmel-Veilleux
+
+The getopt.c and getopt.h files included in this distributions are
+borrowed from the GNU libc distributions and are included to
+provide long arguments functionality to operating systems that
+do not include it. They are GPL licensed under the same term as
+this software and are copyrighten to The Free Software Foundation.
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, 
+USA.
+
+This program can be used to proxy information from one port to 
+another using two modes:
+
+- Server Mode (Listen-Listen)
+- Relay Agent Mode (Connect-Connect)
+
+The main reason for using this program is for situations when the 
+established connection path is the opposite from the data flow.  Typically 
+most firewalls are configured in a more insecure manner for outbound 
+traffic then inbound.  If we want to connect to a service (e.g  NetBIOS) 
+that is filtered by a firewall, we can utilize a Relay Agent Mode 
+revinetd instance to connect to the target service and outbound through 
+the firewall's more liberal filtering rules.  On the other side, a 
+Server Mode revinetd instance will accept a connection from the 
+client computer and the connect-connect mode instance.  The picture below 
+shows the connection and data flow:
+
+Data Flow: (Client initiated traffic such as NetBIOS or VNC)
+
+     (Outside / Internet)      Firewall          (Inside)
+                                  |
+Client ---> Server Mode ----------|---------> Relay Agent Mode ---> Service
+                                  |
+
+
+Connection Flow:
+
+     (Outside / Internet)      Firewall          (Inside)
+                                  |
+Client ---> Server Mode <---------|---------- Relay Agent Mode ---> Service
+                                  |
+
+As you can see the Relay Agent Mode instance initiates the connection back
+to the Server Mode instance through the firewall.  Since most firewalls are
+configured with a more liberal rule set on the inside, there are typically
+more options to connect out with then connect in.  The trick is gaining
+access to install the Relay Agent Mode instance on the inside.
+
+You may say, "What's the point?" or "This sounds a lot like what a hacker 
+will do!" The answer is yes, that's what a hacker could or would do.  
+
+The idea is already out there as is stated in Compass Security's excellent 
+paper entitled "TCP/IP Gender Changer" and can be located at:
+
+http://www.csnc.ch/downloads/docs/techdocs/TCP-IP_GenderChanger_CSNC_V1.0.pdf
+
+What we are doing here is providing the tool to penetration testers to 
+show why it is just as important to secure a firewall from connectivity on 
+both sides.  There are a lot of good pen testers out there who just don't 
+have the time to write these programs and we are providing this to them.  
+I do NOT, however, condone any use of this product for any malicous 
+activity.  We are merely providing an easy-to-use connectivity tool to 
+pen testers to help get the point accross.
+
+Though I have no evidence, I am sure that there are most likely many 
+hackers who whave used netcat or the like with some shell scripts to 
+accomplish the same task. 
+
+USAGE:
+
+Server Mode
+
+revinetd -s -c <address1:port1> -l <address2:port2> 
+
+-l tells Server mode where the relay agent will connect and -c tells the
+server where the client will connect.  Of course on  *nix  systems,
+anything below 1024 needs root access.
+
+Relay Agent Mode
+
+revinetd -r -t <host1:port1> -b <host2:port2>
+
+-t is the target to connect to (ultimate destination), and -b is the
+server callback port (peer which has -l listening).  Specify host:port
+format for both (e.g. localhost:1234 or 127.0.0.1:1234).
+
+NOTE:  This has only been tested on the following configurations:
+
+Linux 2.4,2.6
+OpenBSD 2.9+
+FreeBSD 4.4+
+
+Cygwin with gcc 3.2.2 ** Do not connect to loopback... use the network 
+adapter's address instead.
+
+revinetd now compiles under solaris without monkeying around with the
+makefile, but still needs testing!
+
+Please feel free to send us your successes or any pathces need to get
+revinetd working on your system.
+

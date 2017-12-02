@@ -1,0 +1,27 @@
+TODO for revinetd v 1.0.1
+
+There are many things to do right now, here is a quick list:
+
+Misc
+
+- Portability needs to be increased.  This has been confirmed to compile
+  under solaris 8 SPARC under gcc and cc, but testing needs to be done.
+  Anyone with a SPARC sun station want to help?  We also need to test
+  under other *NIX/architectures:  HP-UX, AIX, IRIX, OS/X, Linux-IA64,
+  etc.  Net to Host and vice versa need to be wrapped for Endian-ness.
+
+- Binary collection:  should we collect pre-compiled binaries for
+  distribution via sourceforge?  
+
+Communications channel:
+
+- Out of Band model chosen.  It seems very stable.  Things we may need 
+  to consider are: 
+
+    SOCKSified proxy:  allow relay agent to act as a proxy client to
+                       offer more connectivity options back to server
+
+    SSL Support:  server only cerft or server+client cert support. encryption
+		  would be on all connections between relay agents and servers.
+                  This would benefit authenticating the relay agent and encrypting
+                  the connection channel.

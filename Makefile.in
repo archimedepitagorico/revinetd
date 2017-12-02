@@ -1,0 +1,20 @@
+CC = @CC@
+CFLAGS = -Wall @CFLAGS@ @CPPFLAGS@ @DEFS@
+LDFLAGS = @LDFLAGS@ @LIBS@
+OBJS = getopt.o revinetd.o misc.o proxy.o server.o relay_agt.o
+BINDIR = @prefix@/bin
+INSTALL = ./install-sh
+
+all : revinetd
+
+revinetd : 	$(OBJS)
+		$(CC) -o $@ $(OBJS) $(LDFLAGS)
+
+clean :
+	-rm -f core *.o revinetd
+
+distclean :
+	-rm -f core *.o config.h revinetd Makefile config.status config.log
+
+install:
+	$(INSTALL) -o 0 -g 0 -m 755 -c -s revinetd $(BINDIR)

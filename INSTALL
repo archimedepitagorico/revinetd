@@ -1,0 +1,14 @@
+Right now there is only one binary: revinetd
+
+run ./configure
+make
+su
+make install
+
+to clean it up:
+
+make clean
+
+or
+
+make distclean

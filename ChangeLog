@@ -1,0 +1,82 @@
+8/27/2008
+Added bugfix for broken relase of relay agent.
+
+12/9/2004
+Added ability to chose the ip address to bind to with server mode.
+This is ready for 1.0.1 release.
+
+
+9/x/2004
+Fixed connection to not require name resolution.  I encountered an older
+server where this was broke.  inet_aton was also not available on this 
+server, so we test for it on configure and use an older connection 
+method.  
+
+4/27/2004
+Updated to 1.0
+
+Hearbeat works and is tested
+Makefile includes install ad behave with PREFIX chosen.
+
+9/29/2003
+Fixed keep alive.  Keep alive breaks when timeout occurs when select is consitently
+thrown only relay agent port pairs.  It stays at a three minute timeout instead
+of what is configured.
+
+6/27/2003
+
+Keep-alive is now a configurable option for the relay agent.  That way
+if we have have a firewall with a quick timout on the connection 
+tracking, we can keep the comm channel from going stale.
+
+4/03/2003
+
+Seem to have working keep-alive.
+
+3/21/2003
+
+Server: when relay agent disconnects, server resets state.
+
+3/19/2003
+
+Updated configure.in to correctly compile under Solaris SPARC under cc
+and gcc
+
+3/14/2003
+
+Remove references to mode.  OOB works so nice that this is how we intend
+to operate only.
+
+3/9/2003
+
+The whole of the network code has been rewritten from scratch. It's
+cleaner and it handles multiple concurrent connections, like web
+browsing. Only -m out works, however.
+
+2/13/2003
+
+Major changes. A new switch has been added.  Mode (-m) will specify the
+communication mode.  currently this is MODE_NONE which gives us crappy
+connectivity issues like before, but still only uses one connection.  -m
+out is Out-Of-Band (OOB) communication channel.  This allows us to have
+control variables about client and target connections, so we can
+simulate a forward data tunnel connect.  This is done through a second
+connection which is the comm channel.  This connection is also initiated
+from the relay agent and connects on the same port as the data tunnel.
+This is so we still only need one port on the firewall open.  The
+"protocol" on the data channel is very simple, it only communicates the
+state of the connection on each side.  For now, specify -m out to enable
+this.  The "none" mode is default, but will either go away soon, or
+become an depereciated option for old compatibility (though this isn't
+really old).
+
+1/2/2003
+
+Updated License Files and Readme
+
+Updated copy_between_ports function for 2k buffered copy
+
+
+1/1/2003
+
+Initial Code Release
