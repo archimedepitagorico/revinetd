@@ -39,7 +39,7 @@ server(char *host,int port, char *host2, int port2)
     struct sockaddr_in tmp_sin;
     Channels *tmp_chan, *temp;
     SockQueue *tmp_sq, *sockq = NULL;
-    size_t size;
+    unsigned int size;
 
     /* Make the sockets. */
     ra_sock = make_socket(host2, port2);
@@ -142,8 +142,8 @@ server(char *host,int port, char *host2, int port2)
                     printf("Unrequested connection from relay agent.\n");
                 } else {
 
-                if (conf.verbosity != VB_QUIET)
-                    printf("New relay agent connection established from %s:%hd\n",
+                    if (conf.verbosity != VB_QUIET)
+                        printf("New relay agent connection established from %s:%hd\n",
                             inet_ntoa(tmp_sin.sin_addr),
                             ntohs(tmp_sin.sin_port));
 
